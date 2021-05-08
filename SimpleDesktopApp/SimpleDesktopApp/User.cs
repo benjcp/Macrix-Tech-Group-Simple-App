@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace SimpleDesktopApp
 {
-    class UserData
+    class User
     {
-        private string first_name, last_name, street_name, town, postal_code;
+        private string first_name, last_name, street_name, town, postal_code, phone_number;
         private DateTime date_of_birth;
         private int? apartment_number;
 
@@ -44,6 +45,12 @@ namespace SimpleDesktopApp
             set { apartment_number = value; }
         }
 
+        public string PhoneNumber
+        {
+            get { return phone_number; }
+            set { phone_number = value; }
+        }
+
         public DateTime DateOfBirth
         {
             get { return date_of_birth; }
@@ -52,10 +59,7 @@ namespace SimpleDesktopApp
 
         public int Age
         {
-            get
-            {
-                return (DateTime.Today - date_of_birth).Days / 365;
-            }
+            get { return (DateTime.Today - date_of_birth).Days / 365; }
         }
     }
 }
