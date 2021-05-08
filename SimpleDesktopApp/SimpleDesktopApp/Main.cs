@@ -16,5 +16,15 @@ namespace SimpleDesktopApp
         {
             InitializeComponent();
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // Save the data into the XML file.
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // Reload the data in the DataTable.
+        }
     }
 }
