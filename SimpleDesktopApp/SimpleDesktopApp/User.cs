@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.Remoting.Messaging;
 
 namespace SimpleDesktopApp
 {
-    class User
+    public class User
     {
         private string first_name, last_name, street_name, town, postal_code, phone_number;
         private DateTime date_of_birth;
