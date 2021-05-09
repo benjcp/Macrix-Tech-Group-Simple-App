@@ -87,7 +87,10 @@
             this.dgvDataTable.Name = "dgvDataTable";
             this.dgvDataTable.Size = new System.Drawing.Size(978, 227);
             this.dgvDataTable.TabIndex = 3;
+            this.dgvDataTable.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDataTable_CellEndEdit);
+            this.dgvDataTable.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvDataTable_CellValidating);
             this.dgvDataTable.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDataTable_CellValueChanged);
+            this.dgvDataTable.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvDataTable_DataError);
             // 
             // dataGridViewTextBoxColumn10
             // 
