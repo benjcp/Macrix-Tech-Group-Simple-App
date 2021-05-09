@@ -9,6 +9,7 @@ namespace SimpleDesktopApp
 {
     class XMLHandler
     {
+        private readonly static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"/UserData.xml";
         public static List<User> LoadData()
         {
             // Convert XML data to class User.
@@ -18,12 +19,13 @@ namespace SimpleDesktopApp
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
-                var filename = AppDomain.CurrentDomain.BaseDirectory + "UserData.xml";
-
-                using (Stream reader = new FileStream(filename, FileMode.Open))
+                if(File.Exists(filePath))
                 {
-                    users = (List<User>)serializer.Deserialize(reader);
-                    reader.Close();
+                    using (Stream reader = new FileStream(filePath, FileMode.Open))
+                    {
+                        users = (List<User>)serializer.Deserialize(reader);
+                        reader.Close();
+                    }
                 }
 
                 return users;
@@ -43,19 +45,12 @@ namespace SimpleDesktopApp
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
-                if(users.Count > 0)
+                using (TextWriter writer = new StreamWriter(filePath))
                 {
-                    using (TextWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "UserData.xml"))
-                    {
-                        serializer.Serialize(writer, users);
-                        writer.Close();
-                    }
+                    serializer.Serialize(writer, users);
+                    writer.Close();
                 }
-                else
-                {
-                    MessageBox.Show("There is no data in the table to save.", "No Data!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
+                
                 MessageBox.Show("Successfully saved data to XML file.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch(Exception ex)
