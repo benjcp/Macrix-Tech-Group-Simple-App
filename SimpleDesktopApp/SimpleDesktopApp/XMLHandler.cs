@@ -18,27 +18,22 @@ namespace SimpleDesktopApp
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
-                List<User> lstUsers;
-
                 var filename = AppDomain.CurrentDomain.BaseDirectory + "UserData.xml";
 
                 using (Stream reader = new FileStream(filename, FileMode.Open))
                 {
-                    lstUsers = (List<User>)serializer.Deserialize(reader);
+                    users = (List<User>)serializer.Deserialize(reader);
+                    reader.Close();
                 }
 
-                return lstUsers;
+                return users;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("There was an error that occured while attempting to load the data.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-
+                MessageBox.Show($"There was an error that occured while attempting to load the data. \n{ex.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-                return users;
+            return users;
         }
 
         public static void SaveData(List<User> users)
@@ -46,21 +41,26 @@ namespace SimpleDesktopApp
             // Convert data from Class User to XML.
             try
             {
-                System.Xml.Serialization.XmlSerializer writer =
-                    new System.Xml.Serialization.XmlSerializer(typeof(List<User>));
+                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
 
-                var path = AppDomain.CurrentDomain.BaseDirectory + "UserData.xml";
-                FileStream file = File.Create(path);
+                if(users.Count > 0)
+                {
+                    using (TextWriter writer = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "UserData.xml"))
+                    {
+                        serializer.Serialize(writer, users);
+                        writer.Close();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("There is no data in the table to save.", "No Data!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
 
-                writer.Serialize(file, users);
+                MessageBox.Show("Successfully saved data to XML file.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch(Exception ex)
             {
-                MessageBox.Show("There was an error that occured while attempting to save the data.", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-
+                MessageBox.Show($"An error that occured while attempting to save the data. \n{ex.Message}", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
